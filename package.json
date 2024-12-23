@@ -1,7 +1,7 @@
 {
   "name": "umi-plugin-eruda",
   "main": "lib/index.js",
-  "version":"1.0.1",
+  "version":"1.1.0",
   "description": "config umi debug",
   "authors": {
     "name": "luoyelusheng",
