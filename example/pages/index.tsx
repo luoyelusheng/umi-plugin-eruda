@@ -1,3 +1,6 @@
 import React from 'react';
 
-export default () => <div />;
+export default () => {
+  console.log('index');
+  return <div />;
+};

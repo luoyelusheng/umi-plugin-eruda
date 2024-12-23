@@ -10,6 +10,7 @@ export default function(api: IApi) {
     scale: 2,
     position: {},
     tools: [],
+    debug: process.env.ERUDA_DEBUG,
     ...eruda,
   };
 
@@ -22,24 +23,32 @@ export default function(api: IApi) {
     },
   });
 
-  if (option.hidden) return;
+  api.addEntryImports(() => {
+    return [
+      {
+        source: 'eruda',
+        specifier: 'eruda',
+      },
+    ];
+  });
 
-  if (process.env.NODE_ENV === 'development' || option.debug) {
-    api.addEntryImports(() => {
-      return [
-        {
-          source: 'eruda',
-          specifier: 'eruda',
-        },
-      ];
-    });
+  api.addEntryCodeAhead(() => {
+    return `const params = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash);
+    if (params.get('ERUDA_DEBUG') || hash.get('ERUDA_DEBUG')) {
+      eruda.init(${JSON.stringify(option.init)});
+      eruda.scale(${option.scale});
+      eruda.position(${JSON.stringify(option.position)})
+      ${option.tools.forEach((cb: any) => `eruda.add(${cb})`)};
+    }`;
+  });
 
+  if (option.debug) {
     api.addEntryCodeAhead(() => {
-      return `window.eruda = eruda.init(${JSON.stringify(
-        option.init,
-      )});eruda.scale(${option.scale});eruda.position(${JSON.stringify(
-        option.position,
-      )});${option.tools.forEach((cb: any) => `eruda.add(${cb})`)}`;
+      return `window.eruda = eruda.init(${JSON.stringify(option.init)});
+      eruda.scale(${option.scale});
+      eruda.position(${JSON.stringify(option.position)});
+      ${option.tools.forEach((cb: any) => `eruda.add(${cb})`)}`;
     });
   }
 }

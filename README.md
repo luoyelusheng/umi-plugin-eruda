@@ -22,26 +22,31 @@ Configure in `.umirc.js`,
 
 ```js
 export default {
-  plugins: [
-    ['umi-plugin-eruda'],
-  ],
+  plugins: [['umi-plugin-eruda']],
   eruda: {
-    init: {},
     scale: 2,
-    position: {},
-    tools: [],
-    hidden:false，
-    debug: true
+    debug: true,
   },
-}
+};
 ```
 
 ## Options
 
 <pre>
-hidden 优先级最高，表示隐藏 eruda，同时设置 debug 默认无效
-debug 在生产环境下打开调试 eruda，默认只在开发环境显示 eruda
+debug 为true时，eruda 才会生效，默认会取 ERUDA_DEBUG 环境变量作为默认值，可通过环境变量覆盖：
 </pre>
+
+```js
+"scripts": {
+  "start": "cross-env APP_ROOT=example ERUDA_DEBUG=true umi dev",
+},
+```
+
+另外通过直接在 URL 中添加 ERUDA_DEBUG 也可以开启调试：
+
+```js
+http://www.dem.com?ERUDA_DEBUG=true
+```
 
 ## LICENSE
 

@@ -9,7 +9,7 @@
   },
   "repository": "https://github.com/luoyelusheng/umi-plugin-eruda",
   "scripts": {
-    "start": "cross-env APP_ROOT=example umi dev",
+    "start": "cross-env APP_ROOT=example ERUDA_DEBUG=true umi dev",
     "build": "father-build",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
